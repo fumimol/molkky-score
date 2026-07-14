@@ -16,7 +16,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .brand small{display:block;color:var(--accent);font-size:10px;letter-spacing:.18em;font-weight:900}
 .brand h1{font-size:20px;margin:3px 0}
 .top{display:flex;gap:7px}.icon{width:43px;height:43px;border-radius:14px;background:var(--panel2);font-size:19px}
-.toolbar{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px;margin-bottom:10px}
+.toolbar{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;margin-bottom:10px}
 .tool{background:var(--panel);border-radius:15px;padding:10px;text-align:center;font-size:12px;color:var(--muted);font-weight:800}
 .tool b{display:block;color:var(--text);font-size:16px;margin-top:2px}
 .timerbox{display:grid;grid-template-columns:1fr auto;align-items:stretch;background:var(--panel);border-radius:15px;overflow:hidden}
@@ -53,8 +53,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .history-title{display:flex;justify-content:space-between;gap:6px;font-size:12px;font-weight:1000;margin-bottom:7px}
 .history-title span:last-child{color:var(--accent)}
 .history-list{max-height:210px;overflow:auto}
-.rowh{display:grid;grid-template-columns:30px 1fr 46px 48px;gap:5px;align-items:center;border-bottom:1px solid #303b4d;padding:7px 0;font-size:11px}
-.rowh:last-child{border-bottom:0}.num{color:var(--muted)}.pts{text-align:center;font-weight:1000}.after{text-align:right;color:var(--accent);font-weight:900}.took{color:var(--muted)}
+.rowh{display:grid;grid-template-columns:34px 1fr 52px;gap:5px;align-items:center;border-bottom:1px solid #303b4d;padding:7px 0;font-size:11px}
+.rowh:last-child{border-bottom:0}.num{color:var(--muted)}.pts{text-align:center;font-weight:1000}.after{text-align:right;color:var(--accent);font-weight:900}
 .empty{text-align:center;color:var(--muted);padding:14px 2px;font-size:11px}
 dialog{width:min(580px,calc(100% - 24px));border:0;border-radius:24px;background:#151b27;color:var(--text);padding:18px}
 dialog::backdrop{background:rgba(0,0,0,.7)}
@@ -71,7 +71,7 @@ input,select{width:100%;border:1px solid #3a4659;background:#252f40;color:var(--
 <body>
 <div class="app">
 <header>
- <div class="brand"><small>FUMIYA ORIGINAL</small><h1>FUMIYA MÖLKKY SCORE</h1></div>
+ <div class="brand"><small>TOURNAMENT SCORE</small><h1 id="tournamentTitle">大会名未設定</h1></div>
  <div class="top"><button class="icon" id="soundBtn">🔊</button><button class="icon" id="settingsBtn">⚙️</button></div>
 </header>
 
@@ -81,7 +81,6 @@ input,select{width:100%;border:1px solid #3a4659;background:#252f40;color:var(--
   <button class="timer-main" id="timerBtn">試合時間<b id="timerText">00:00</b></button>
   <button class="timer-reset" id="timerResetBtn" title="時間リセット">↻</button>
  </div>
- <div class="tool">目標点<b id="targetText">50</b></div>
 </section>
 
 <div class="match-status">
@@ -107,6 +106,8 @@ input,select{width:100%;border:1px solid #3a4659;background:#252f40;color:var(--
 
 <dialog id="settingsDialog">
  <h2>ゲーム設定</h2>
+ <label>大会名</label>
+ <input id="tournamentInput" placeholder="例：ZENJIN CUP 2026">
  <div class="two">
   <div><label>対戦モード</label><select id="modeInput"><option value="individual">個人戦</option><option value="team">チーム戦</option></select></div>
   <div><label>試合形式</label>
@@ -156,6 +157,7 @@ const FORMATS={
  hundred:{label:"100点",target:100,wins:1,fixed:null,reverse:false}
 };
 const DEFAULT={
+ tournamentName:"大会名未設定",
  mode:"team",format:"first2",names:["ZENJIN MITO","CHALLENGER"],scores:[],active:0,
  history:[],accent:"#f4b400",overRule:true,missRule:true,sound:true,
  matchSeconds:0,matchRunning:false,turnSeconds:0,
@@ -169,10 +171,10 @@ function normalize(){
  if(!Array.isArray(state.gameWins)||state.gameWins.length!==state.names.length)state.gameWins=state.names.map(()=>0);
 }
 function load(){
- try{const x=JSON.parse(localStorage.getItem("fumiyaMolkkyV4"));const s=x?{...DEFAULT,...x}:structuredClone(DEFAULT);state=s;normalize();return s}
+ try{const x=JSON.parse(localStorage.getItem("fumiyaMolkkyV5"));const s=x?{...DEFAULT,...x}:structuredClone(DEFAULT);state=s;normalize();return s}
  catch(e){const s=structuredClone(DEFAULT);s.scores=makeScores(s.names);s.gameWins=s.names.map(()=>0);return s}
 }
-function save(){localStorage.setItem("fumiyaMolkkyV4",JSON.stringify(state))}
+function save(){localStorage.setItem("fumiyaMolkkyV5",JSON.stringify(state))}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function fmt(sec){return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")}
 function beep(f=500,d=.07){if(!state.sound)return;try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=f;g.gain.value=.05;o.start();g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.stop(a.currentTime+d)}catch(e){}}
@@ -181,14 +183,23 @@ function orderLabel(i){
  const rel=(i-state.starter+state.names.length)%state.names.length;
  if(rel===0)return "先攻";if(rel===1)return "後攻";return (rel+1)+"番";
 }
+function orderedIndexes(){
+ return state.names.map((_,i)=>i).sort((a,b)=>{
+  const ra=(a-state.starter+state.names.length)%state.names.length;
+  const rb=(b-state.starter+state.names.length)%state.names.length;
+  return ra-rb;
+ });
+}
 function render(){
  const f=currentFormat();
  document.documentElement.style.setProperty("--accent",state.accent);
- formatText.textContent=f.label;targetText.textContent=f.target;timerText.textContent=fmt(state.matchSeconds);gameNo.textContent=state.gameNumber;
+ document.title=state.tournamentName||"モルックスコア";
+ tournamentTitle.textContent=state.tournamentName||"大会名未設定";
+ formatText.textContent=f.label;timerText.textContent=fmt(state.matchSeconds);gameNo.textContent=state.gameNumber;
  soundBtn.textContent=state.sound?"🔊":"🔇";
  seriesText.textContent=f.fixed?`勝数 ${state.gameWins.join(" - ")} / 全${f.fixed}ゲーム`:`先取状況 ${state.gameWins.join(" - ")}`;
  cards.innerHTML="";
- state.scores.forEach((p,i)=>{
+ orderedIndexes().forEach(i=>{ const p=state.scores[i];
   const el=document.createElement("section");el.className="card"+(i===state.active?" active":"")+(p.score===f.target?" winner":"");
   let dots="";for(let n=0;n<3;n++)dots+=`<i class="dot ${n<p.misses?"on":""}"></i>`;
   const shownTime=i===state.active?state.turnSeconds:p.lastThrow;
@@ -203,11 +214,11 @@ function render(){
 }
 function renderHistory(){
  historyGrid.innerHTML="";
- state.scores.forEach((p,i)=>{
+ orderedIndexes().forEach(i=>{ const p=state.scores[i];
   const rows=state.history.filter(h=>h.playerIndex===i);
   const col=document.createElement("div");col.className="history-col";
   col.innerHTML=`<div class="history-title"><span>${esc(p.name)}</span><span>${rows.length}投</span></div>`+
-   (rows.length?`<div class="history-list">${rows.slice().reverse().map((h,n)=>`<div class="rowh"><span class="num">#${rows.length-n}</span><span class="took">${fmt(h.throwTime)}</span><span class="pts">${h.points===0?"MISS":"+"+h.points}</span><span class="after">${h.after}点</span></div>`).join("")}</div>`:`<div class="empty">履歴なし</div>`);
+   (rows.length?`<div class="history-list">${rows.slice().reverse().map((h,n)=>`<div class="rowh"><span class="num">#${rows.length-n}</span><span class="pts">${h.points===0?"MISS":"+"+h.points}</span><span class="after">${h.after}点</span></div>`).join("")}</div>`:`<div class="empty">履歴なし</div>`);
   historyGrid.appendChild(col);
  });
 }
@@ -279,6 +290,7 @@ function updateSettings(){
  formatNote.textContent=notes[formatInput.value];
 }
 function openSettings(){
+ tournamentInput.value=state.tournamentName||"";
  modeInput.value=state.mode;formatInput.value=state.format;namesInput.value=state.names.join(", ");colorInput.value=state.accent;overInput.checked=state.overRule;missInput.checked=state.missRule;updateSettings();settingsDialog.showModal();
 }
 modeInput.onchange=updateSettings;formatInput.onchange=updateSettings;namesInput.oninput=updateSettings;
@@ -286,6 +298,7 @@ settingsBtn.onclick=openSettings;modeBtn.onclick=openSettings;closeSettings.oncl
 saveSettings.onclick=()=>{
  const names=namesInput.value.split(",").map(x=>x.trim()).filter(Boolean).slice(0,8);
  if(names.length<2){alert("2人以上を入力してください");return}
+ state.tournamentName=tournamentInput.value.trim()||"大会名未設定";
  state.mode=modeInput.value;state.format=formatInput.value;state.names=names;state.accent=colorInput.value;state.overRule=overInput.checked;state.missRule=missInput.checked;state.starter=Math.min(Number(starterInput.value)||0,names.length-1);
  settingsDialog.close();resetMatch(false);
 };
