@@ -3,147 +3,133 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#10131a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>FUMIYA MÖLKKY SCORE</title>
+<title>モルックスコア</title>
 <style>
-:root{--accent:#f4b400;--bg:#0b0f17;--panel:#151b27;--panel2:#202a3a;--text:#f7f8fb;--muted:#9aa6b7;--danger:#ff5d68;--ok:#39d98a}
+:root{
+  --accent:#f4b400;--bg:#0b0f17;--panel:#151b27;--panel2:#202a3a;
+  --text:#f7f8fb;--muted:#9aa6b7;--danger:#ff5d68;--ok:#39d98a
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:linear-gradient(180deg,#121b2c,var(--bg));color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;min-height:100svh}
+html,body{margin:0;min-height:100%;background:linear-gradient(180deg,#121b2c,var(--bg));color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}
 button,input,select{font:inherit}button{border:0;color:inherit;cursor:pointer}
-.app{width:min(920px,100%);margin:auto;padding:12px 12px calc(18px + env(safe-area-inset-bottom))}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.brand small{display:block;color:var(--accent);font-size:10px;letter-spacing:.18em;font-weight:900}
-.brand h1{font-size:20px;margin:3px 0}
-.top{display:flex;gap:7px}.icon{width:43px;height:43px;border-radius:14px;background:var(--panel2);font-size:19px}
-.toolbar{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;margin-bottom:10px}
+.app{width:min(980px,100%);margin:auto;padding:12px 12px calc(18px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.brand{min-width:0}.brand small{display:block;color:var(--accent);font-size:10px;letter-spacing:.15em;font-weight:900}
+.brand h1{font-size:21px;margin:3px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top{display:flex;gap:7px}.icon{height:43px;min-width:43px;padding:0 12px;border-radius:14px;background:var(--panel2);font-size:14px;font-weight:900}
+.toolbar{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;margin-bottom:9px}
 .tool{background:var(--panel);border-radius:15px;padding:10px;text-align:center;font-size:12px;color:var(--muted);font-weight:800}
 .tool b{display:block;color:var(--text);font-size:16px;margin-top:2px}
-.timerbox{display:grid;grid-template-columns:1fr auto;align-items:stretch;background:var(--panel);border-radius:15px;overflow:hidden}
+.timerbox{display:grid;grid-template-columns:1fr auto;background:var(--panel);border-radius:15px;overflow:hidden}
 .timer-main{background:transparent;padding:10px;text-align:center;color:var(--accent);font-size:12px;font-weight:900}
 .timer-main b{display:block;font-size:18px;color:var(--text);margin-top:2px}
-.timer-reset{width:44px;background:#2a3547;font-size:17px}
-.match-status{background:var(--panel);border-radius:16px;padding:10px 12px;margin-bottom:9px;display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted);font-weight:800}
-.match-status b{color:var(--text)}
-.players{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:2px solid transparent;border-radius:20px;padding:12px;min-height:195px;position:relative}
-.card.active{border-color:var(--accent);box-shadow:0 10px 28px rgba(244,180,0,.14)}
+.timer-reset{width:45px;background:#2a3547;font-size:18px}
+.status{display:flex;justify-content:space-between;gap:10px;background:var(--panel);border-radius:15px;padding:10px 12px;margin-bottom:9px;color:var(--muted);font-size:12px;font-weight:800}
+.status b{color:var(--text)}
+.players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.card{position:relative;background:linear-gradient(145deg,var(--panel),var(--panel2));border:2px solid transparent;border-radius:20px;padding:12px;min-height:195px}
+.card.active{border-color:var(--accent);box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 18%,transparent)}
 .card.winner{border-color:var(--ok)}
-.headrow{display:flex;align-items:center;gap:6px;padding-right:55px}
-.name{font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.order{flex:0 0 auto;background:#303b4d;color:#d7dfeb;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:1000}
-.turn{position:absolute;top:10px;right:10px;background:var(--accent);color:#111;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:1000;display:none}
+.head{display:flex;align-items:center;gap:6px;padding-right:56px}
+.name{font-weight:1000;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.order{flex:0 0 auto;background:#303b4d;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:1000}
+.turn{position:absolute;top:10px;right:10px;background:var(--accent);color:#111;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:1000;display:none}
 .card.active .turn{display:block}
-.throw-time{font-size:12px;color:var(--muted);font-weight:800;margin-top:7px}
-.throw-time b{color:var(--accent);font-variant-numeric:tabular-nums}
-.score{font-size:62px;text-align:center;line-height:1.05;font-weight:1000;margin:10px 0 4px}
+.throw-time{margin-top:7px;color:var(--muted);font-size:12px;font-weight:800}.throw-time b{color:var(--accent);font-variant-numeric:tabular-nums}
+.score{font-size:64px;line-height:1;text-align:center;font-weight:1000;margin:13px 0 5px}
 .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:800}
 .dots{display:flex;gap:4px}.dot{width:10px;height:10px;background:#3d485a;border-radius:50%}.dot.on{background:var(--danger)}
-.bar{height:6px;background:#344054;border-radius:99px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;background:var(--accent);width:0}
-.prompt{text-align:center;color:var(--muted);font-weight:800;font-size:13px;margin:11px 0 8px}
+.bar{height:6px;background:#344054;border-radius:99px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;background:var(--accent)}
+.prompt{text-align:center;color:var(--muted);font-size:13px;font-weight:900;margin:11px 0 8px}
 .pins{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .pin{height:58px;border-radius:16px;background:#f1ede3;color:#151515;font-size:23px;font-weight:1000;box-shadow:inset 0 -5px rgba(0,0,0,.12)}
 .pin.miss{background:#566174;color:#fff}
 .actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:9px}
-.action{padding:13px 5px;border-radius:15px;background:var(--panel2);font-weight:900;font-size:13px}.action.primary{background:var(--accent);color:#111}.action.danger{color:#ff8a92}
+.action{padding:13px 5px;border-radius:15px;background:var(--panel2);font-size:13px;font-weight:900}.action.primary{background:var(--accent);color:#111}.action.danger{color:#ff8a92}
 .history{background:var(--panel);border-radius:20px;padding:13px;margin-top:11px}
 .history h2{font-size:15px;margin:0 0 10px}
-.history-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .history-col{background:#1d2736;border-radius:15px;padding:10px;min-width:0}
 .history-title{display:flex;justify-content:space-between;gap:6px;font-size:12px;font-weight:1000;margin-bottom:7px}
 .history-title span:last-child{color:var(--accent)}
 .history-list{max-height:210px;overflow:auto}
-.rowh{display:grid;grid-template-columns:34px 1fr 52px;gap:5px;align-items:center;border-bottom:1px solid #303b4d;padding:7px 0;font-size:11px}
-.rowh:last-child{border-bottom:0}.num{color:var(--muted)}.pts{text-align:center;font-weight:1000}.after{text-align:right;color:var(--accent);font-weight:900}
+.hrow{display:grid;grid-template-columns:34px 1fr 52px;gap:6px;align-items:center;border-bottom:1px solid #303b4d;padding:7px 0;font-size:11px}
+.hrow:last-child{border-bottom:0}.num{color:var(--muted)}.pts{text-align:center;font-weight:1000}.after{text-align:right;color:var(--accent);font-weight:900}
 .empty{text-align:center;color:var(--muted);padding:14px 2px;font-size:11px}
-dialog{width:min(580px,calc(100% - 24px));border:0;border-radius:24px;background:#151b27;color:var(--text);padding:18px}
-dialog::backdrop{background:rgba(0,0,0,.7)}
+dialog{width:min(590px,calc(100% - 24px));border:0;border-radius:24px;background:#151b27;color:var(--text);padding:18px}
+dialog::backdrop{background:rgba(0,0,0,.72)}
 dialog h2{margin:0 0 13px}
 label{display:block;color:var(--muted);font-size:12px;font-weight:800;margin:10px 0 5px}
 input,select{width:100%;border:1px solid #3a4659;background:#252f40;color:var(--text);border-radius:12px;padding:11px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:7px}
 .dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.dialog-actions button{padding:11px 15px;border-radius:12px;background:#293548;font-weight:900}.dialog-actions .save{background:var(--accent);color:#111}
-.mode-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:7px}
-@media(min-width:700px){.players{grid-template-columns:repeat(4,1fr)}.history-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:430px){.score{font-size:54px}.card{min-height:182px}.pin{height:54px}.toolbar{grid-template-columns:1fr 1fr}.toolbar>.tool:last-child{grid-column:1/3}.history-grid{grid-template-columns:1fr}}
+
+/* display mode */
+.display{min-height:100svh;padding:24px;display:flex;flex-direction:column;gap:18px}
+.display .display-title{text-align:center}
+.display .display-title small{display:block;color:var(--accent);font-weight:900;letter-spacing:.15em}
+.display .display-title h1{font-size:clamp(28px,5vw,64px);margin:6px 0 0}
+.display .display-status{display:flex;justify-content:center;gap:30px;color:var(--muted);font-size:clamp(15px,2vw,24px);font-weight:900}
+.display-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;flex:1}
+.display-card{position:relative;background:linear-gradient(145deg,#151b27,#202a3a);border:4px solid transparent;border-radius:30px;padding:24px;display:flex;flex-direction:column;justify-content:center}
+.display-card.active{border-color:var(--accent);box-shadow:0 0 50px color-mix(in srgb,var(--accent) 22%,transparent)}
+.display-card .dhead{display:flex;align-items:center;justify-content:center;gap:10px}
+.display-card .dname{font-size:clamp(24px,4vw,54px);font-weight:1000;text-align:center}
+.display-card .dorder{background:#303b4d;padding:6px 12px;border-radius:999px;font-weight:1000}
+.display-card .dscore{font-size:clamp(110px,18vw,260px);line-height:.95;text-align:center;font-weight:1000;margin:20px 0}
+.display-card .dmeta{text-align:center;color:var(--muted);font-size:clamp(16px,2.4vw,32px);font-weight:900}
+.display-card .dturn{position:absolute;top:20px;right:20px;background:var(--accent);color:#111;padding:8px 14px;border-radius:999px;font-weight:1000;display:none}
+.display-card.active .dturn{display:block}
+.display-history{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.display-history>div{background:#151b27;border-radius:18px;padding:14px}
+.display-history h3{margin:0 0 8px;font-size:clamp(16px,2vw,25px)}
+.display-history p{margin:0;color:var(--muted);font-size:clamp(14px,1.8vw,22px);line-height:1.7;word-break:break-all}
+.display-close{position:fixed;right:12px;bottom:12px;background:rgba(32,42,58,.85);padding:10px 14px;border-radius:12px;font-weight:900}
+
+@media(min-width:700px){.players{grid-template-columns:repeat(4,minmax(0,1fr))}.history-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:520px){.score{font-size:54px}.card{min-height:182px}.pin{height:54px}.history-grid{grid-template-columns:1fr}.display{padding:10px;gap:10px}.display-grid{gap:8px}.display-card{padding:10px;border-radius:18px;border-width:2px}.display-card .dorder{padding:3px 6px;font-size:11px}.display-card .dturn{top:8px;right:8px;padding:4px 7px;font-size:10px}.display-history{grid-template-columns:1fr;gap:8px}.display-history>div{padding:9px}}
 </style>
 </head>
 <body>
-<div class="app">
-<header>
- <div class="brand"><small>TOURNAMENT SCORE</small><h1 id="tournamentTitle">大会名未設定</h1></div>
- <div class="top"><button class="icon" id="soundBtn">🔊</button><button class="icon" id="settingsBtn">⚙️</button></div>
-</header>
-
-<section class="toolbar">
- <button class="tool" id="modeBtn">試合形式<b id="formatText">2先</b></button>
- <div class="timerbox">
-  <button class="timer-main" id="timerBtn">試合時間<b id="timerText">00:00</b></button>
-  <button class="timer-reset" id="timerResetBtn" title="時間リセット">↻</button>
- </div>
-</section>
-
-<div class="match-status">
- <span>ゲーム <b id="gameNo">1</b></span>
- <span id="seriesText">先取状況 0 - 0</span>
-</div>
-
-<main class="players" id="cards"></main>
-<div class="prompt" id="prompt">得点を選択してください</div>
-<section class="pins" id="pins"></section>
-
-<section class="actions">
- <button class="action" id="undoBtn">↶ 取り消し</button>
- <button class="action primary" id="nextBtn">⇄ 手番交代</button>
- <button class="action danger" id="resetBtn">↻ 試合リセット</button>
-</section>
-
-<section class="history">
- <h2>得点履歴（チーム・選手別）</h2>
- <div class="history-grid" id="historyGrid"></div>
-</section>
-</div>
+<div id="root"></div>
 
 <dialog id="settingsDialog">
- <h2>ゲーム設定</h2>
- <label>大会名</label>
- <input id="tournamentInput" placeholder="例：ZENJIN CUP 2026">
- <div class="two">
-  <div><label>対戦モード</label><select id="modeInput"><option value="individual">個人戦</option><option value="team">チーム戦</option></select></div>
-  <div><label>試合形式</label>
-   <select id="formatInput">
-    <option value="single">1ゲーム</option>
-    <option value="first2">2先</option>
-    <option value="first3">3先</option>
-    <option value="homeaway">表裏（2ゲーム固定）</option>
-    <option value="first11">11先</option>
-    <option value="tenmatch">10番（10ゲーム固定）</option>
-    <option value="hundred">100点ゲーム</option>
-   </select>
+  <h2>大会・試合設定</h2>
+  <label>大会名</label>
+  <input id="tournamentInput" placeholder="例：ZENJIN CUP 2026">
+  <div class="two">
+    <div><label>対戦モード</label><select id="modeInput"><option value="individual">個人戦</option><option value="team">チーム戦</option></select></div>
+    <div><label>試合形式</label>
+      <select id="formatInput">
+        <option value="single">1ゲーム</option>
+        <option value="first2">2先</option>
+        <option value="first3">3先</option>
+        <option value="homeaway">表裏</option>
+        <option value="first11">11先</option>
+        <option value="tenmatch">10番</option>
+        <option value="hundred">100点ゲーム</option>
+      </select>
+    </div>
   </div>
- </div>
- <label id="namesLabel">選手名（カンマ区切り・2〜8人）</label>
- <input id="namesInput" placeholder="ふみや, 萌花, イエロー">
- <div class="mode-note" id="formatNote"></div>
- <div class="two">
-  <div><label>テーマカラー</label><input id="colorInput" type="color"></div>
-  <div><label>先攻</label><select id="starterInput"></select></div>
- </div>
- <label><input id="overInput" type="checkbox" style="width:auto;margin-right:7px">目標点を超えたら半分の点に戻す</label>
- <label><input id="missInput" type="checkbox" style="width:auto;margin-right:7px">3回連続ミスを表示する</label>
- <div class="dialog-actions"><button id="closeSettings">閉じる</button><button class="save" id="saveSettings">保存</button></div>
+  <label id="namesLabel">選手名（カンマ区切り・2〜8人）</label>
+  <input id="namesInput" placeholder="ふみや, 萌花">
+  <div class="note" id="formatNote"></div>
+  <div class="two">
+    <div><label>テーマカラー</label><input id="colorInput" type="color"></div>
+    <div><label>先攻</label><select id="starterInput"></select></div>
+  </div>
+  <label><input id="overInput" type="checkbox" style="width:auto;margin-right:7px">目標点を超えたら半分の点に戻す</label>
+  <label><input id="missInput" type="checkbox" style="width:auto;margin-right:7px">3回連続ミスを表示する</label>
+  <div class="dialog-actions"><button id="closeSettings">閉じる</button><button class="save" id="saveSettings">保存</button></div>
 </dialog>
 
-<dialog id="gameWinnerDialog">
- <h2 id="gameWinnerTitle" style="text-align:center;font-size:25px">GAME WINNER</h2>
- <p id="gameWinnerDetail" style="text-align:center;color:var(--muted)"></p>
- <div class="dialog-actions" style="justify-content:center"><button id="viewResult">結果を見る</button><button class="save" id="nextGameBtn">次のゲーム</button></div>
-</dialog>
-
-<dialog id="matchWinnerDialog">
- <h2 id="matchWinnerTitle" style="text-align:center;font-size:27px">MATCH WINNER</h2>
- <p id="matchWinnerDetail" style="text-align:center;color:var(--muted)"></p>
- <div class="dialog-actions" style="justify-content:center"><button id="closeMatch">閉じる</button><button class="save" id="newMatchBtn">新しい試合</button></div>
+<dialog id="winnerDialog">
+  <h2 id="winnerTitle" style="text-align:center;font-size:26px"></h2>
+  <p id="winnerDetail" style="text-align:center;color:var(--muted)"></p>
+  <div class="dialog-actions" style="justify-content:center"><button id="winnerClose">閉じる</button><button class="save" id="winnerNext">次へ</button></div>
 </dialog>
 
 <script>
@@ -157,159 +143,180 @@ const FORMATS={
  hundred:{label:"100点",target:100,wins:1,fixed:null,reverse:false}
 };
 const DEFAULT={
- tournamentName:"大会名未設定",
- mode:"team",format:"first2",names:["ZENJIN MITO","CHALLENGER"],scores:[],active:0,
- history:[],accent:"#f4b400",overRule:true,missRule:true,sound:true,
- matchSeconds:0,matchRunning:false,turnSeconds:0,
- gameNumber:1,gameWins:[],gameResults:[],starter:0
+ tournamentName:"大会名未設定",mode:"individual",format:"single",names:["先攻","後攻"],
+ scores:[],active:0,starter:0,history:[],gameWins:[],gameNumber:1,
+ accent:"#f4b400",overRule:true,missRule:true,sound:true,
+ matchSeconds:0,matchRunning:false,turnSeconds:0
 };
+const KEY="molkkyTournamentV2";
 let state=load(),matchTimer=null,turnTimer=null;
+const root=document.getElementById("root");
+const displayMode=new URLSearchParams(location.search).get("view")==="display";
+const channel=("BroadcastChannel" in window)?new BroadcastChannel("molkky-score-live"):null;
 
-function makeScores(names){return names.map(n=>({name:n,score:0,misses:0,lastThrow:0}))}
+function makeScores(){return state.names.map(n=>({name:n,score:0,misses:0,lastThrow:0}))}
 function normalize(){
- if(!Array.isArray(state.scores)||state.scores.length!==state.names.length)state.scores=makeScores(state.names);
+ if(!Array.isArray(state.scores)||state.scores.length!==state.names.length)state.scores=makeScores();
  if(!Array.isArray(state.gameWins)||state.gameWins.length!==state.names.length)state.gameWins=state.names.map(()=>0);
 }
 function load(){
- try{const x=JSON.parse(localStorage.getItem("fumiyaMolkkyV5"));const s=x?{...DEFAULT,...x}:structuredClone(DEFAULT);state=s;normalize();return s}
- catch(e){const s=structuredClone(DEFAULT);s.scores=makeScores(s.names);s.gameWins=s.names.map(()=>0);return s}
+ try{const x=JSON.parse(localStorage.getItem(KEY));const s=x?{...DEFAULT,...x}:structuredClone(DEFAULT);state=s;normalize();return s}
+ catch(e){const s=structuredClone(DEFAULT);s.scores=s.names.map(n=>({name:n,score:0,misses:0,lastThrow:0}));s.gameWins=s.names.map(()=>0);return s}
 }
-function save(){localStorage.setItem("fumiyaMolkkyV5",JSON.stringify(state))}
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(state));
+ if(channel)channel.postMessage({type:"state",state});
+}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function fmt(sec){return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")}
-function beep(f=500,d=.07){if(!state.sound)return;try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=f;g.gain.value=.05;o.start();g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.stop(a.currentTime+d)}catch(e){}}
 function currentFormat(){return FORMATS[state.format]}
-function orderLabel(i){
- const rel=(i-state.starter+state.names.length)%state.names.length;
- if(rel===0)return "先攻";if(rel===1)return "後攻";return (rel+1)+"番";
-}
-function orderedIndexes(){
- return state.names.map((_,i)=>i).sort((a,b)=>{
-  const ra=(a-state.starter+state.names.length)%state.names.length;
-  const rb=(b-state.starter+state.names.length)%state.names.length;
-  return ra-rb;
- });
-}
-function render(){
+function orderLabel(i){const r=(i-state.starter+state.names.length)%state.names.length;return r===0?"先攻":r===1?"後攻":(r+1)+"番"}
+function orderedIndexes(){return state.names.map((_,i)=>i).sort((a,b)=>((a-state.starter+state.names.length)%state.names.length)-((b-state.starter+state.names.length)%state.names.length))}
+function beep(f=500,d=.07){if(!state.sound)return;try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=f;g.gain.value=.05;o.start();g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.stop(a.currentTime+d)}catch(e){}}
+
+function renderOperator(){
  const f=currentFormat();
- document.documentElement.style.setProperty("--accent",state.accent);
  document.title=state.tournamentName||"モルックスコア";
- tournamentTitle.textContent=state.tournamentName||"大会名未設定";
- formatText.textContent=f.label;timerText.textContent=fmt(state.matchSeconds);gameNo.textContent=state.gameNumber;
- soundBtn.textContent=state.sound?"🔊":"🔇";
- seriesText.textContent=f.fixed?`勝数 ${state.gameWins.join(" - ")} / 全${f.fixed}ゲーム`:`先取状況 ${state.gameWins.join(" - ")}`;
- cards.innerHTML="";
- orderedIndexes().forEach(i=>{ const p=state.scores[i];
-  const el=document.createElement("section");el.className="card"+(i===state.active?" active":"")+(p.score===f.target?" winner":"");
-  let dots="";for(let n=0;n<3;n++)dots+=`<i class="dot ${n<p.misses?"on":""}"></i>`;
-  const shownTime=i===state.active?state.turnSeconds:p.lastThrow;
-  el.innerHTML=`<div class="headrow"><div class="name">${esc(p.name)}</div><span class="order">${orderLabel(i)}</span></div>
-   <span class="turn">THROW</span><div class="throw-time">投擲時間 <b>${fmt(shownTime)}</b></div>
-   <div class="score">${p.score}</div><div class="meta"><span>残り ${Math.max(0,f.target-p.score)}</span><span class="dots">${dots}</span></div>
-   <div class="bar"><i style="width:${Math.min(100,p.score/f.target*100)}%"></i></div>`;
-  el.onclick=()=>switchTurn(i);cards.appendChild(el);
+ document.documentElement.style.setProperty("--accent",state.accent);
+ root.innerHTML=`<div class="app">
+  <header>
+    <div class="brand"><small>TOURNAMENT SCORE</small><h1>${esc(state.tournamentName||"大会名未設定")}</h1></div>
+    <div class="top"><button class="icon" id="displayBtn">配信画面</button><button class="icon" id="soundBtn">${state.sound?"🔊":"🔇"}</button><button class="icon" id="settingsBtn">⚙️</button></div>
+  </header>
+  <section class="toolbar">
+    <button class="tool" id="modeBtn">試合形式<b>${f.label}</b></button>
+    <div class="timerbox"><button class="timer-main" id="timerBtn">試合時間<b>${fmt(state.matchSeconds)}</b></button><button class="timer-reset" id="timerResetBtn">↻</button></div>
+  </section>
+  <div class="status"><span>ゲーム <b>${state.gameNumber}</b></span><span>${f.fixed?`勝数 ${state.gameWins.join(" - ")} / 全${f.fixed}ゲーム`:`先取状況 ${state.gameWins.join(" - ")}`}</span></div>
+  <main class="players" id="cards"></main>
+  <div class="prompt">${esc(state.scores[state.active].name)} の得点を選択</div>
+  <section class="pins" id="pins"></section>
+  <section class="actions"><button class="action" id="undoBtn">↶ 取り消し</button><button class="action primary" id="nextBtn">⇄ 手番交代</button><button class="action danger" id="resetBtn">↻ 試合リセット</button></section>
+  <section class="history"><h2>得点履歴</h2><div class="history-grid" id="historyGrid"></div></section>
+ </div>`;
+ const cards=document.getElementById("cards");
+ orderedIndexes().forEach(i=>{
+   const p=state.scores[i],el=document.createElement("section");
+   el.className="card"+(i===state.active?" active":"")+(p.score===f.target?" winner":"");
+   let dots="";for(let n=0;n<3;n++)dots+=`<i class="dot ${n<p.misses?"on":""}"></i>`;
+   el.innerHTML=`<div class="head"><div class="name">${esc(p.name)}</div><span class="order">${orderLabel(i)}</span></div><span class="turn">THROW</span>
+   <div class="throw-time">投擲時間 <b>${fmt(i===state.active?state.turnSeconds:p.lastThrow)}</b></div>
+   <div class="score">${p.score}</div><div class="meta"><span>残り ${Math.max(0,f.target-p.score)}</span><span class="dots">${dots}</span></div><div class="bar"><i style="width:${Math.min(100,p.score/f.target*100)}%"></i></div>`;
+   el.onclick=()=>switchTurn(i);cards.appendChild(el);
  });
- prompt.textContent=state.scores[state.active].name+" の得点を選択";
- renderHistory();save();
+ const pins=document.getElementById("pins");
+ [0,1,2,3,4,5,6,7,8,9,10,11,12].forEach(n=>{const b=document.createElement("button");b.className="pin"+(n===0?" miss":"");b.textContent=n===0?"MISS":n;b.onclick=()=>addScore(n);pins.appendChild(b)});
+ const hg=document.getElementById("historyGrid");
+ orderedIndexes().forEach(i=>{
+   const rows=state.history.filter(h=>h.playerIndex===i),col=document.createElement("div");col.className="history-col";
+   col.innerHTML=`<div class="history-title"><span>${esc(state.scores[i].name)}</span><span>${rows.length}投</span></div>`+
+   (rows.length?`<div class="history-list">${rows.slice().reverse().map((h,n)=>`<div class="hrow"><span class="num">#${rows.length-n}</span><span class="pts">${h.points===0?"MISS":"+"+h.points}</span><span class="after">${h.after}点</span></div>`).join("")}</div>`:`<div class="empty">履歴なし</div>`);
+   hg.appendChild(col);
+ });
+ bindOperator();
 }
-function renderHistory(){
- historyGrid.innerHTML="";
- orderedIndexes().forEach(i=>{ const p=state.scores[i];
-  const rows=state.history.filter(h=>h.playerIndex===i);
-  const col=document.createElement("div");col.className="history-col";
-  col.innerHTML=`<div class="history-title"><span>${esc(p.name)}</span><span>${rows.length}投</span></div>`+
-   (rows.length?`<div class="history-list">${rows.slice().reverse().map((h,n)=>`<div class="rowh"><span class="num">#${rows.length-n}</span><span class="pts">${h.points===0?"MISS":"+"+h.points}</span><span class="after">${h.after}点</span></div>`).join("")}</div>`:`<div class="empty">履歴なし</div>`);
-  historyGrid.appendChild(col);
+function renderDisplay(){
+ const f=currentFormat();
+ document.title=(state.tournamentName||"大会名未設定")+"｜配信";
+ document.documentElement.style.setProperty("--accent",state.accent);
+ root.innerHTML=`<div class="display">
+  <div class="display-title"><small>LIVE SCORE</small><h1>${esc(state.tournamentName||"大会名未設定")}</h1></div>
+  <div class="display-status"><span>ゲーム ${state.gameNumber}</span><span>${f.label}</span><span>試合時間 ${fmt(state.matchSeconds)}</span><span>勝数 ${state.gameWins.join(" - ")}</span></div>
+  <main class="display-grid" id="displayGrid"></main>
+  <section class="display-history" id="displayHistory"></section>
+  <button class="display-close" onclick="location.href=location.pathname">操作画面へ</button>
+ </div>`;
+ const grid=document.getElementById("displayGrid");
+ orderedIndexes().slice(0,2).forEach(i=>{
+  const p=state.scores[i],el=document.createElement("section");el.className="display-card"+(i===state.active?" active":"");
+  el.innerHTML=`<span class="dturn">投擲中</span><div class="dhead"><div class="dname">${esc(p.name)}</div><span class="dorder">${orderLabel(i)}</span></div><div class="dscore">${p.score}</div><div class="dmeta">残り ${Math.max(0,f.target-p.score)}　｜　投擲時間 ${fmt(i===state.active?state.turnSeconds:p.lastThrow)}</div>`;
+  grid.appendChild(el);
+ });
+ const dh=document.getElementById("displayHistory");
+ orderedIndexes().slice(0,2).forEach(i=>{
+   const rows=state.history.filter(h=>h.playerIndex===i),div=document.createElement("div");
+   div.innerHTML=`<h3>${esc(state.scores[i].name)} 得点履歴</h3><p>${rows.length?rows.map(h=>h.points===0?"MISS":h.points).join("・"):"まだ投球がありません"}</p>`;
+   dh.appendChild(div);
  });
 }
-function switchTurn(i){
- state.scores[state.active].lastThrow=state.turnSeconds;state.active=i;state.turnSeconds=0;ensureTurnTimer();render();
-}
+function render(){displayMode?renderDisplay():renderOperator();save()}
+
+function switchTurn(i){state.scores[state.active].lastThrow=state.turnSeconds;state.active=i;state.turnSeconds=0;render()}
 function addScore(points){
- const f=currentFormat(),idx=state.active,p=state.scores[idx],snap=JSON.parse(JSON.stringify({scores:state.scores,active:state.active,turnSeconds:state.turnSeconds}));
- const throwTime=state.turnSeconds;p.lastThrow=throwTime;
- if(points===0)p.misses++;else p.misses=0;
+ const f=currentFormat(),idx=state.active,p=state.scores[idx];
+ const snap=JSON.parse(JSON.stringify({scores:state.scores,active:state.active,turnSeconds:state.turnSeconds}));
+ p.lastThrow=state.turnSeconds;if(points===0)p.misses++;else p.misses=0;
  let next=p.score+points;if(state.overRule&&next>f.target)next=Math.floor(f.target/2);p.score=next;
- state.history.push({playerIndex:idx,name:p.name,points,after:p.score,throwTime,snapshot:snap,game:state.gameNumber});
+ state.history.push({playerIndex:idx,points,after:p.score,snapshot:snap,game:state.gameNumber});
  beep(points?500+points*18:220);
  if(state.missRule&&p.misses>=3)setTimeout(()=>alert(p.name+" は3回連続ミスです"),80);
  if(p.score===f.target){finishGame(idx);return}
  state.active=(state.active+1)%state.scores.length;state.turnSeconds=0;render();
 }
 function finishGame(winner){
- state.gameWins[winner]++;state.gameResults.push({game:state.gameNumber,winner,seconds:state.matchSeconds});
- stopTurnTimer();
- const f=currentFormat(),fixedDone=f.fixed&&state.gameNumber>=f.fixed,winDone=f.wins&&state.gameWins[winner]>=f.wins;
- if(fixedDone||winDone){
-  stopMatchTimer();state.matchRunning=false;
-  const best=Math.max(...state.gameWins),leaders=state.gameWins.map((v,i)=>v===best?i:-1).filter(i=>i>=0);
-  matchWinnerTitle.textContent=leaders.length===1?"🏆 "+state.names[leaders[0]]+" MATCH WINNER!":"🤝 DRAW";
-  matchWinnerDetail.textContent=`最終勝数 ${state.gameWins.join(" - ")}｜試合時間 ${fmt(state.matchSeconds)}`;
-  setTimeout(()=>matchWinnerDialog.showModal(),120);
+ state.gameWins[winner]++;const f=currentFormat();
+ const matchDone=(f.fixed&&state.gameNumber>=f.fixed)||(f.wins&&state.gameWins[winner]>=f.wins);
+ if(matchDone){
+   state.matchRunning=false;stopMatchTimer();
+   const best=Math.max(...state.gameWins),leaders=state.gameWins.map((v,i)=>v===best?i:-1).filter(i=>i>=0);
+   winnerTitle.textContent=leaders.length===1?"🏆 "+state.names[leaders[0]]+" MATCH WINNER!":"🤝 DRAW";
+   winnerDetail.textContent=`最終勝数 ${state.gameWins.join(" - ")}｜試合時間 ${fmt(state.matchSeconds)}`;
+   winnerNext.textContent="新しい試合";winnerNext.dataset.action="new";
  }else{
-  gameWinnerTitle.textContent="🏆 "+state.names[winner]+" GAME WINNER!";
-  gameWinnerDetail.textContent=`第${state.gameNumber}ゲーム｜勝数 ${state.gameWins.join(" - ")}`;
-  setTimeout(()=>gameWinnerDialog.showModal(),120);
+   winnerTitle.textContent="🏆 "+state.names[winner]+" GAME WINNER!";
+   winnerDetail.textContent=`第${state.gameNumber}ゲーム｜勝数 ${state.gameWins.join(" - ")}`;
+   winnerNext.textContent="次のゲーム";winnerNext.dataset.action="next";
  }
- render();
+ winnerDialog.showModal();render();
 }
-function startNextGame(){
- gameWinnerDialog.close();state.gameNumber++;
- if(currentFormat().reverse&&state.gameNumber===2)state.starter=(state.starter+1)%state.names.length;
- state.active=state.starter;state.scores=makeScores(state.names);state.history=[];state.turnSeconds=0;ensureTurnTimer();render();
-}
-function undo(){
- const h=state.history.pop();if(!h)return;
- state.scores=h.snapshot.scores;state.active=h.snapshot.active;state.turnSeconds=h.snapshot.turnSeconds;beep(300);render();
+function nextGame(){
+ state.gameNumber++;if(currentFormat().reverse&&state.gameNumber===2)state.starter=(state.starter+1)%state.names.length;
+ state.active=state.starter;state.scores=makeScores();state.history=[];state.turnSeconds=0;render();
 }
 function resetMatch(ask=true){
  if(ask&&!confirm("試合全体をリセットしますか？"))return;
- state.scores=makeScores(state.names);state.gameWins=state.names.map(()=>0);state.gameResults=[];state.history=[];state.gameNumber=1;state.active=state.starter;state.matchSeconds=0;state.turnSeconds=0;state.matchRunning=false;stopMatchTimer();ensureTurnTimer();render();
+ state.scores=makeScores();state.gameWins=state.names.map(()=>0);state.history=[];state.gameNumber=1;state.active=state.starter;state.matchSeconds=0;state.turnSeconds=0;state.matchRunning=false;stopMatchTimer();render();
 }
-function resetTime(){if(!confirm("試合時間を00:00に戻しますか？"))return;state.matchSeconds=0;timerText.textContent="00:00";save()}
-function startMatchTimer(){if(matchTimer)return;matchTimer=setInterval(()=>{state.matchSeconds++;timerText.textContent=fmt(state.matchSeconds);save()},1000)}
+function undo(){const h=state.history.pop();if(!h)return;state.scores=h.snapshot.scores;state.active=h.snapshot.active;state.turnSeconds=h.snapshot.turnSeconds;render()}
+function startMatchTimer(){if(matchTimer)return;matchTimer=setInterval(()=>{state.matchSeconds++;if(!displayMode){const e=document.querySelector(".timer-main b");if(e)e.textContent=fmt(state.matchSeconds)}else renderDisplay();save()},1000)}
 function stopMatchTimer(){clearInterval(matchTimer);matchTimer=null}
-function ensureTurnTimer(){if(turnTimer)return;turnTimer=setInterval(()=>{state.turnSeconds++;const activeCard=document.querySelector(".card.active .throw-time b");if(activeCard)activeCard.textContent=fmt(state.turnSeconds);save()},1000)}
-function stopTurnTimer(){clearInterval(turnTimer);turnTimer=null}
-function toggleMatchTimer(){state.matchRunning=!state.matchRunning;state.matchRunning?startMatchTimer():stopMatchTimer();beep(620);save()}
+function toggleMatchTimer(){state.matchRunning=!state.matchRunning;state.matchRunning?startMatchTimer():stopMatchTimer();save()}
+function startTurnTimer(){if(turnTimer)return;turnTimer=setInterval(()=>{state.turnSeconds++;if(displayMode)renderDisplay();else{const e=document.querySelector(".card.active .throw-time b");if(e)e.textContent=fmt(state.turnSeconds)}save()},1000)}
+function openSettings(){
+ tournamentInput.value=state.tournamentName;modeInput.value=state.mode;formatInput.value=state.format;namesInput.value=state.names.join(", ");colorInput.value=state.accent;overInput.checked=state.overRule;missInput.checked=state.missRule;updateSettings();settingsDialog.showModal();
+}
 function updateSettings(){
  const names=namesInput.value.split(",").map(x=>x.trim()).filter(Boolean);
  namesLabel.textContent=modeInput.value==="individual"?"選手名（カンマ区切り・2〜8人）":"チーム名（カンマ区切り・2〜8チーム）";
  starterInput.innerHTML=names.map((n,i)=>`<option value="${i}">${esc(n)}</option>`).join("");
  starterInput.value=Math.min(state.starter,Math.max(0,names.length-1));
- const f=FORMATS[formatInput.value];
- const notes={
-  single:"通常の50点ゲームを1回行います。",
-  first2:"先に2ゲーム勝利した側が勝者です。",
-  first3:"先に3ゲーム勝利した側が勝者です。",
-  homeaway:"2ゲーム固定。2ゲーム目は先攻・後攻を入れ替えます。",
-  first11:"先に11ゲーム勝利した側が勝者です。",
-  tenmatch:"10ゲーム固定で行い、最終的な勝利数で競います。",
-  hundred:"100点ちょうどで勝利。超過時は50点に戻ります。"
- };
+ const notes={single:"通常の1ゲームです。",first2:"先に2ゲーム勝利した側が勝者です。",first3:"先に3ゲーム勝利した側が勝者です。",homeaway:"2ゲーム目に先攻・後攻を入れ替えます。",first11:"先に11ゲーム勝利した側が勝者です。",tenmatch:"10ゲーム固定で最終勝利数を競います。",hundred:"100点ちょうどで勝利します。"};
  formatNote.textContent=notes[formatInput.value];
 }
-function openSettings(){
- tournamentInput.value=state.tournamentName||"";
- modeInput.value=state.mode;formatInput.value=state.format;namesInput.value=state.names.join(", ");colorInput.value=state.accent;overInput.checked=state.overRule;missInput.checked=state.missRule;updateSettings();settingsDialog.showModal();
+function bindOperator(){
+ document.getElementById("displayBtn").onclick=()=>window.open(location.pathname+"?view=display","_blank");
+ document.getElementById("settingsBtn").onclick=openSettings;
+ document.getElementById("modeBtn").onclick=openSettings;
+ document.getElementById("soundBtn").onclick=()=>{state.sound=!state.sound;render()};
+ document.getElementById("timerBtn").onclick=toggleMatchTimer;
+ document.getElementById("timerResetBtn").onclick=()=>{if(confirm("試合時間を00:00に戻しますか？")){state.matchSeconds=0;render()}};
+ document.getElementById("undoBtn").onclick=undo;
+ document.getElementById("nextBtn").onclick=()=>switchTurn((state.active+1)%state.scores.length);
+ document.getElementById("resetBtn").onclick=()=>resetMatch(true);
 }
 modeInput.onchange=updateSettings;formatInput.onchange=updateSettings;namesInput.oninput=updateSettings;
-settingsBtn.onclick=openSettings;modeBtn.onclick=openSettings;closeSettings.onclick=()=>settingsDialog.close();
+closeSettings.onclick=()=>settingsDialog.close();
 saveSettings.onclick=()=>{
  const names=namesInput.value.split(",").map(x=>x.trim()).filter(Boolean).slice(0,8);
  if(names.length<2){alert("2人以上を入力してください");return}
- state.tournamentName=tournamentInput.value.trim()||"大会名未設定";
- state.mode=modeInput.value;state.format=formatInput.value;state.names=names;state.accent=colorInput.value;state.overRule=overInput.checked;state.missRule=missInput.checked;state.starter=Math.min(Number(starterInput.value)||0,names.length-1);
+ state.tournamentName=tournamentInput.value.trim()||"大会名未設定";state.mode=modeInput.value;state.format=formatInput.value;state.names=names;state.accent=colorInput.value;state.overRule=overInput.checked;state.missRule=missInput.checked;state.starter=Math.min(Number(starterInput.value)||0,names.length-1);
  settingsDialog.close();resetMatch(false);
 };
-soundBtn.onclick=()=>{state.sound=!state.sound;render();if(state.sound)beep()};
-timerBtn.onclick=toggleMatchTimer;timerResetBtn.onclick=resetTime;
-undoBtn.onclick=undo;nextBtn.onclick=()=>switchTurn((state.active+1)%state.scores.length);resetBtn.onclick=()=>resetMatch(true);
-viewResult.onclick=()=>gameWinnerDialog.close();nextGameBtn.onclick=startNextGame;
-closeMatch.onclick=()=>matchWinnerDialog.close();newMatchBtn.onclick=()=>{matchWinnerDialog.close();resetMatch(false)};
-const pins=document.getElementById("pins");
-[0,1,2,3,4,5,6,7,8,9,10,11,12].forEach(n=>{const b=document.createElement("button");b.className="pin"+(n===0?" miss":"");b.textContent=n===0?"MISS":n;b.onclick=()=>addScore(n);pins.appendChild(b)});
-if(state.matchRunning)startMatchTimer();ensureTurnTimer();render();
+winnerClose.onclick=()=>winnerDialog.close();
+winnerNext.onclick=()=>{const a=winnerNext.dataset.action;winnerDialog.close();a==="new"?resetMatch(false):nextGame()};
+window.addEventListener("storage",e=>{if(e.key===KEY){state=JSON.parse(e.newValue);normalize();displayMode?renderDisplay():renderOperator()}});
+if(channel)channel.onmessage=e=>{if(e.data?.type==="state"){state=e.data.state;normalize();displayMode?renderDisplay():renderOperator()}};
+if(state.matchRunning)startMatchTimer();startTurnTimer();render();
 </script>
 </body>
 </html>
